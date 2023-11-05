@@ -1,0 +1,45 @@
+{% extends 'header.html' %}
+
+{% block content %}
+      <div class="nav">
+          <h2>– LATEST TRANSFERS –</h2>
+          <table class="content-nav">
+            <thead>
+              <tr>
+                <td>#player</td>
+                <td>from</td>
+                <td>to</td>
+                <td>
+                  transfer fee, <br />
+                  mill. euro
+                </td>
+                <td>
+                  transfer fee, <br />
+                  mill. euro, <br />
+                  by tft.com
+                </td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      <div class="latest-transfers">
+        
+        <table class="players">
+            {% for i in h_mavsum %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.player.ism }}</td>
+            <td>{{ i.eski.nom }}</td>
+            <td>{{ i.yangi.nom }}</td>
+            <td>{{ i.narx }}</td>
+            <td>{{ i.tah_narx }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+          </tr>
+        </table>
+        <hr>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae soluta sequi quia eos cupiditate rerum accusantium odit enim, expedita, architecto error dignissimos voluptatibus. Nisi illo, maiores fugit amet neque eveniet!</p>
+      </div>
+      </div>
+      {% endblock %}
