@@ -46,7 +46,8 @@ def c_clubs(request, club):
     return render(request, 'country-clubs.html', data)
 
 def h_mavsum(request):
+    h_mavsum = HMavsum.objects.get(id=1)
     data = {
-        "h_mavsum" : Transfer.objects.filter(mavsum="23-24")
+        "h_mavsum" : Transfer.objects.filter(mavsum=h_mavsum)
     }
     return render(request, 'latest-transfers.html', data)
