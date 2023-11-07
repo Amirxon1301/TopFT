@@ -2,36 +2,42 @@ from django.shortcuts import render
 from .models import *
 from datetime import date
 
+
 def index(request):
     return render(request, 'index.html')
+
 
 def about(request):
     return render(request, 'about.html')
 
+
 def players(request):
     data = {
-        "players" : Player.objects.all()
+        "players": Player.objects.all()
     }
 
     return render(request, 'players.html', data)
 
+
 def clubs(request):
     data = {
-        "clubs" : Club.objects.all()
+        "clubs": Club.objects.all()
     }
     return render(request, 'clubs.html', data)
+
 
 def u20players(request):
     h_sana = str(date.today())  # "2023-11-03"
     yil = int(h_sana[:4]) - 20  # int("2023") - 20 = 2003
     yangi_sana = h_sana.replace(h_sana[:4], str(yil))  # "2003-11-03"
     data = {
-        "players" : Player.objects.filter(tugilgan_yil__gte=yangi_sana
-                        ).order_by("-narx", "-tugilgan_yil"),
-        "hozirgi_yil" : date.today().year
+        "players": Player.objects.filter(tugilgan_yil__gte=yangi_sana
+                                         ).order_by("-narx", "-tugilgan_yil"),
+        "hozirgi_yil": date.today().year
 
     }
     return render(request, 'U-20 players.html', data)
+
 
 def davlat_clublari(request, davlat):
     content = {
@@ -39,15 +45,32 @@ def davlat_clublari(request, davlat):
     }
     return render(request, 'davlatlar.html', content)
 
+
 def c_clubs(request, club):
     data = {
-        "t_club" : Player.objects.filter(club__nom  =club.capitalize())
+        "t_club": Player.objects.filter(club__nom=club.capitalize())
     }
     return render(request, 'country-clubs.html', data)
 
+
 def h_mavsum(request):
-    h_mavsum = HMavsum.objects.get(id=1)
     data = {
-        "h_mavsum" : Transfer.objects.filter(mavsum=h_mavsum)
+        "h_mavsum": Transfer.objects.filter(mavsum=HMavsum.objects.get(id=1))
     }
     return render(request, 'latest-transfers.html', data)
+
+def transfer_archive(request):
+    data = {
+        "mavsumlar": Transfer.objects.exclude(
+            mavsum=HMavsum.objects.first()
+        ).values("mavsum").distinct().order_by("mavsum")
+    }
+    return render(request, 'transfer-archive.html', data)
+
+def season(request,m):
+    data = {
+    "transferlar" : Transfer.objects.filter(mavsum=m),
+        "mavsum" : m
+    }
+    return render(request, '2017-18season.html', data)
+

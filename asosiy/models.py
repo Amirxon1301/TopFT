@@ -23,6 +23,14 @@ class Player(models.Model):
     def __str__(self):
         return self.ism
 
+class HMavsum(models.Model):
+    hovirgi_mavsum = models.CharField(max_length=10)
+    def __str__(self):
+        return self.hovirgi_mavsum
+    class Meta:
+        verbose_name = "Hozirgi Mavsum"
+        verbose_name_plural = "Hozirgi Mavsum"
+
 class Transfer(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     eski = models.ForeignKey(Club, on_delete=models.CASCADE, related_name="sotuvlari")
@@ -31,10 +39,11 @@ class Transfer(models.Model):
     narx = models.PositiveSmallIntegerField()
     tah_narx = models.PositiveSmallIntegerField()
 
-class HMavsum(models.Model):
-    hovirgi_mavsum = models.CharField(max_length=10)
-    def __str__(self):
-        return self.hovirgi_mavsum
-    class Meta:
-        verbose_name = "Hozirgi Mavsum"
-        verbose_name_plural = "Hozirgi Mavsum"
+    def save(self, *args, **kwargs):
+        m = HMavsum.objects.first().hovirgi_mavsum
+        if self.mavsum == m:
+            player = self.player
+            player.club = self.yangi
+            player.save()
+        super(Transfer, self).save(*args, **kwargs)
+

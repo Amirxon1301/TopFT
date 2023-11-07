@@ -30,5 +30,7 @@ urlpatterns = [
     path('u20players/',u20players),
     path('d_c/<str:davlat>/',davlat_clublari),
     path('country_clubs/<str:club>/',c_clubs),
-    path('h_m_transferlari',h_mavsum),
+    path('latest_transfers',h_mavsum),
+    path('transfer_archive',transfer_archive),
+    path('mavsum/<str:m>/',season),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
